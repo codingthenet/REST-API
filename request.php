@@ -18,11 +18,20 @@ $requestBody = array(
 $request = new RestRequest();
 
 try {
+  // Update film of id 76 with the details in $requestBody
   //$request->make('PUT', 'http://localhost/rest/rest_service.php', 'film/76', $requestBody);
-  //$request->make('GET', 'http://localhost/rest/rest_service.php', 'film');
-  //$request->make('GET', 'http://localhost/rest/rest_service.php', 'film');
-  $request->make('DELETE', 'http://localhost/rest/rest_service.php', 'film/25');
-  //$request->make('POST', 'http://localhost/rest/rest_service.php', 'film', $requestBody);
+  
+  // Retrieve the information for all films
+  // $request->make('GET', 'http://localhost/rest/rest_service.php', 'film');
+  
+  // Retrieve the information for film id 37
+  // $request->make('GET', 'http://localhost/rest/rest_service.php', 'film/37');
+  
+  // Delete film of id 25
+  // $request->make('DELETE', 'http://localhost/rest/rest_service.php', 'film/25');
+  
+  // Save a film using the details in $requestBody
+  // $request->make('POST', 'http://localhost/rest/rest_service.php', 'film', $requestBody);
 }
 catch (Exception $e) {
   echo 'Error: ' . $e->getMessage();
