@@ -13,3 +13,5 @@ system.
    values (which is json-encoded by the class)
  
  - PUT can update any film using the same associative array via film/[film_id]
+
+Currently un-authenticated - the next step is to add HTTP-DIGEST auth.
