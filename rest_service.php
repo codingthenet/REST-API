@@ -225,7 +225,7 @@ class RestCall {
     
     $result = db::query($sql, $params);
     
-    if (empty($result) || isset($result['failure'])) {
+    if (empty($result) || isset($result['FAILURE'])) {
       return FALSE;
     }
     else {
