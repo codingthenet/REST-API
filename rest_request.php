@@ -6,7 +6,6 @@
  */
 class RestRequest {
   private $_curlHandle;
-  private $_method;
   private $_responseBody;
   private $_responseInfo;
   
@@ -24,7 +23,7 @@ class RestRequest {
    * Sets the important parameters for the cURL request.
    * Parameters can be extended by adding to the array.
    */
-  public function make($_method, $url, $path, $body = array()) {
+  public function make($method, $url, $path, $body = array()) {
     $body = json_encode($body, JSON_FORCE_OBJECT);
     
     $urlParams = array(
@@ -34,7 +33,7 @@ class RestRequest {
     // Build the query URL
     $url = $url . '?'. http_build_query($urlParams, '' , '&');
     
-    switch ($_method) {
+    switch ($method) {
       case 'POST':
         // Build the post query from associative array
         $postBody = http_build_query(array('data' => $body), '', '&');
@@ -55,14 +54,14 @@ class RestRequest {
         curl_setopt($this->_curlHandle, CURLOPT_PUT, TRUE);
         break;
       case 'DELETE':
-        // Set the delete HTTP request _method
+        // Set the delete HTTP request method
         curl_setopt($this->_curlHandle, CURLOPT_CUSTOMREQUEST, 'DELETE');
         break;
       case 'GET':
         // Included for completeness - otherwise an exception will be thrown
         break;
       default:
-        $msg = $_method . ' is not a valid request _method.'
+        $msg = $method . ' is not a valid request method.'
               .' The type should be one of: GET, POST, PUT, DELETE';
         throw new Exception($msg);
         exit();
