@@ -72,18 +72,36 @@ class RestRequest {
     return $this->_execute();
   }
   
+  /*
+   * Executes the query, and saves the response
+   */
   private function _execute() {
     $this->_responseBody = curl_exec($this->_curlHandle);
     $this->_responseInfo  = curl_getinfo($this->_curlHandle);
     $this->close();
   }
   
+  /*
+   * Returns the responseBody
+   */
   public function responseBody() {
     return $this->_responseBody;
   }
   
+  /*
+   * Returns the responseInfo
+   */
   public function responseInfo() {
     return $this->_responseInfo;
+  }
+  
+  /*
+   * Closes the curlHandle
+   */
+  public function close() {
+    if (gettype($this->_curlHandle) === 'resource') {
+      curl_close($this->_curlHandle);
+    }
   }
   
   public function __toString() {
@@ -92,12 +110,6 @@ class RestRequest {
     }
     else {
       return 'This request has not yet been executed';
-    }
-  }
-  
-  public function close() {
-    if (gettype($this->_curlHandle) === 'resource') {
-      curl_close($this->_curlHandle);
     }
   }
   

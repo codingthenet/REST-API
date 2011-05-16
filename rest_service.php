@@ -8,7 +8,7 @@ require_once('database.php');
 abstract class RestServe {
   /*
    * The core response method - detects the type of request,
-   * and delegates the appropriate response to another method
+   * and takes the appropriate action(s)
    */
   public static function response() {
     // Get the request method - must be one of GET, POST, PUT, DELETE
@@ -49,7 +49,7 @@ abstract class RestServe {
     $response = $request->execute();
     
     // Respond based on the action
-    if (isset($response['updated']) || isset($response['deleted'])) {
+    if (isset($response['UPDATE']) || isset($response['DELETE'])) {
       self::_setHeader(200, 'json');
       echo json_encode($method . ' successful');
       return;
@@ -83,6 +83,10 @@ abstract class RestServe {
     }
   }
   
+  /*
+   * Sets the response type and format header,
+   * with an optional message
+   */
   private static function _setHeader($response = 200, $content = 'html', $msg = '') {
     // First set the response header
     switch($response) {
@@ -114,6 +118,9 @@ abstract class RestServe {
     header("Content-type: $c");
   }
   
+  /*
+   * Sets an error header and message
+   */
   private static function _error($message = 'Undefined') {
     self::_setHeader(500, html);
     echo json_encode(array('ERROR' => $message));
@@ -130,6 +137,9 @@ class RestCall {
   private $_data;
   private $_path;
   
+  /*
+   * Safe columns to query in film table
+   */
   private $_safeColumns = array(
     'title',
     'description',
@@ -144,6 +154,9 @@ class RestCall {
     'special_features',
   );
   
+  /*
+   * Checks that an array of columns are safe to use
+   */
   private function _checkColumns($array) {
     $safe = (array_diff($array, $this->_safeColumns)) ? FALSE : TRUE;
     return $safe;
@@ -220,15 +233,24 @@ class RestCall {
     }
   }
   
+  /*
+   * Returns request method
+   */
   public function getMethod() {
     return $this->_method;
   }
   
+  /*
+   * Returns data sent for request
+   */
   public function getData() {
     return $this->_data;
   }
 }
 
+/*
+ * Catches and responds to incoming requests
+ */
 RestServe::response();
 
 ?>
